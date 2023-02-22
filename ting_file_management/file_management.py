@@ -11,7 +11,7 @@ def txt_importer(path_file):
         # Referencia [2]
         with open(path_file, mode='r') as file:
             content = file.readlines()
-        content = [line.rstrip('\n') for line in content]
+        return [line.rstrip('\n') for line in content]
     except FileNotFoundError:
         print(f'Arquivo {path_file} não encontrado', file=sys.stderr)
 # Referencias:
