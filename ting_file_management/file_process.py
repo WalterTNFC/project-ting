@@ -19,7 +19,7 @@ def process(path_file, instance: Queue):
         if fileListed['nome_do_arquivo'] == new_data['nome_do_arquivo']:
             return None
 
-    instance.enqueue(new_data);
+    instance.enqueue(new_data)
     print(new_data, file=sys.stdout)
 
 
