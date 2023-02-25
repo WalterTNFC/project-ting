@@ -22,6 +22,15 @@ def verifyOccurrence(word, file_lines):
     return count
 
 
+def verifyOccurrenceAndData(word, file_lines):
+    count = []
+    for i in range(len(file_lines)):
+        line = file_lines[i].lower()
+        if word.lower() in line:
+            count.append({"linha": i + 1, "conteudo": file_lines[i]})
+    return count
+
+
 def exists_word(word, instance: Queue):
     for element in instance.queue:
         file_lines = element["linhas_do_arquivo"]
@@ -37,5 +46,12 @@ process("statics/nome_pedro.txt", project)
 exists_word("pedro", project)
 
 
-def search_by_word(word, instance):
-    """Aqui irá sua implementação"""
+def search_by_word(word, instance: Queue):
+    count = []
+    for element in instance.queue:
+        file_lines = element["linhas_do_arquivo"]
+        file_name = element["nome_do_arquivo"]
+        count = verifyOccurrenceAndData(word, file_lines)
+        result = add_data(count, word, file_name)
+
+    return result
