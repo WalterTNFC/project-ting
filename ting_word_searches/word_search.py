@@ -1,30 +1,40 @@
 from ting_file_management.queue import Queue
+from ting_file_management.file_process import process
 
 
-def add_file(count, file, word):
-    return count.append({
-        "palavra": word,
-        "arquivo": file["nome_do_arquivo"],
-        "ocorrencias": count
-    })
+def add_data(count, word, file_name):
+    word_data = []
+    if len(count) > 0:
+        word_data.append({
+            "palavra": word,
+            "arquivo": file_name,
+            "ocorrencias": count
+        })
+    return word_data
 
 
-def verifyOccurrence(word, file, lines):
+def verifyOccurrence(word, file_lines):
     count = []
-    for i in range(len(lines)):
-        if word.lower() in lines[i].lower():
+    for i in range(len(file_lines)):
+        line = file_lines[i].lower()
+        if word.lower() in line:
             count.append({"linha": i + 1})
-            add = add_file(count, file, word)
-    return add
+    return count
 
 
 def exists_word(word, instance: Queue):
-    for i in range(len(instance)):
-        search_file = instance.search(i)
-        lines = search_file["linhas_do_arquivo"]
+    for element in instance.queue:
+        file_lines = element["linhas_do_arquivo"]
+        file_name = element["nome_do_arquivo"]
+        count = verifyOccurrence(word, file_lines)
+        result = add_data(count, word, file_name)
 
-        count_and_add = verifyOccurrence(word, search_file, lines)
-    return count_and_add
+    return result
+
+
+project = Queue()
+process("statics/nome_pedro.txt", project)
+exists_word("pedro", project)
 
 
 def search_by_word(word, instance):
